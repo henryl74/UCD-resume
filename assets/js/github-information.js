@@ -7,14 +7,13 @@ function userInformationHTML(user) {
         </h2>
         <div class="gh-content">
             <div class="gh-avatar">
-                <a href="${user.html_url} target="_blank">
-                    <img src="${user.avatar_url}" width="80px" height="80px" alt="${user.login}">
+                <a href="${user.html_url}" target="_blank">
+                    <img src="${user.avatar_url}" width="80" height="80" alt="${user.login}" />
                 </a>
             </div>
-            <p>Followers: ${user.followers} - Following: ${user.following} <br> Repos: ${user.public_repos}</p>
+            <p>Followers: ${user.followers} - Following ${user.following} <br> Repos: ${user.public_repos}</p>
         </div>`;
-};
-
+}
 
 function repoInformationHTML(repos) {
     if (repos.length == 0) {
@@ -35,11 +34,9 @@ function repoInformationHTML(repos) {
                     ${listItemsHTML.join("\n")}
                 </ul>
             </div>`;
-};
-
+}
 
 function fetchGitHubInformation(event) {
-
     $("#gh-user-data").html("");
     $("#gh-repo-data").html("");
 
@@ -51,7 +48,7 @@ function fetchGitHubInformation(event) {
 
     $("#gh-user-data").html(
         `<div id="loader">
-        <img src="assets/css/loader.gif" alt="loading...">
+            <img src="assets/css/loader.gif" alt="loading..." />
         </div>`);
 
     $.when(
@@ -70,14 +67,13 @@ function fetchGitHubInformation(event) {
                     `<h2>No info found for user ${username}</h2>`);
             } else if (errorResponse.status === 403) {
                 var resetTime = new Date(errorResponse.getResponseHeader('X-RateLimit-Reset') * 1000);
-                $("#gh-user-data").html(`<h4>Too many request, please wait until ${restTime.toLocaleTimeString()}</h4>`);
+                $("#gh-user-data").html(`<h4>Too many requests, please wait until ${resetTime.toLocaleTimeString()}</h4>`);
             } else {
                 console.log(errorResponse);
                 $("#gh-user-data").html(
                     `<h2>Error: ${errorResponse.responseJSON.message}</h2>`);
             }
-        }
-    )
-};
+        });
+}
 
 $(document).ready(fetchGitHubInformation);
